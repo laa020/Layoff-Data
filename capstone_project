@@ -1,0 +1,93 @@
+Original dataset can be tracked at https://layoffs.fyi/
+
+-I used Excel spreadsheets for cleaning the data. 
+-I removed Date_Added, Source, and List_of_Employees_Laid_Off columns as they were not needed for my analysis. 
+-I renamed columns to be all lowercase.
+-I changed the date column to the date datatype. 
+-I changed laid_off_count to an integer datatype.
+-I filled null values in the laid_off_count, percentage, funds_raised columns with 0. 
+-I removed one row from the company Homebound as there were no values for laid_off_count, percentage, or date.
+-I extracted the year from the date column and made a new column titled year. 
+
+Questions that came to mind when looking at this dataset:
+1. How many countries are included in this dataset?
+2. How many companies are included in this dataset?
+3. How many industries are included in this dataset?
+4. What were the top 10 companies with layoffs each year?
+5. What were the top 10 industries with the layoffs each year?
+6. What were the top 10 locations within the United States with layoffs?
+7. What was the average number of layoffs per industry?
+8. What was the total number of layoffs by stage in descending order?
+
+I did Data Exploration using SQL. 
+
+/*Getting a count of the number of unique companies, industries, and countries.*/
+ 
+SELECT COUNT(DISTINCT company) AS company_count,
+  COUNT(DISTINCT industry) AS industry_count,
+  COUNT(DISTINCT country) AS country_count
+FROM `portfolio-372119.layoffs_data.layoffs_data`;
+ 
+/*Finding a list of the top 10 companies with the most layoffs*/
+SELECT company, sum(laid_off_count) AS total_laid_off, year
+FROM `portfolio-372119.layoffs_data.layoffs_data`
+WHERE year = 2020
+GROUP BY company,year
+ORDER BY total_laid_off DESC,year
+LIMIT 10;
+ 
+SELECT company, sum(laid_off_count) AS total_laid_off, year
+FROM `portfolio-372119.layoffs_data.layoffs_data`
+WHERE year = 2021
+GROUP BY company,year
+ORDER BY total_laid_off DESC,year
+LIMIT 10;
+ 
+SELECT company, sum(laid_off_count) AS total_laid_off, year
+FROM `portfolio-372119.layoffs_data.layoffs_data`
+WHERE year = 2022
+GROUP BY company,year
+ORDER BY total_laid_off DESC,year
+LIMIT 10;
+ 
+/*Finding a list of the top 10 industries with the most layoffs from each year*/
+SELECT industry, sum(laid_off_count) AS total_laid_off, year
+FROM `portfolio-372119.layoffs_data.layoffs_data`
+WHERE year = 2020
+GROUP BY industry,year
+ORDER BY total_laid_off DESC,year
+LIMIT 10;
+ 
+SELECT industry, sum(laid_off_count) AS total_laid_off, year
+FROM `portfolio-372119.layoffs_data.layoffs_data`
+WHERE year = 2021
+GROUP BY industry,year
+ORDER BY total_laid_off DESC,year
+LIMIT 10;
+ 
+SELECT industry, sum(laid_off_count) AS total_laid_off, year
+FROM `portfolio-372119.layoffs_data.layoffs_data`
+WHERE year = 2022
+GROUP BY industry,year
+ORDER BY  total_laid_off DESC, year
+LIMIT 10;
+ 
+/*What were the top 10 locations within the United States with layoffs?*/
+SELECT location, sum(laid_off_count) AS total_laid_off
+FROM `portfolio-372119.layoffs_data.layoffs_data`
+WHERE country ='United States'
+GROUP BY location
+ORDER BY total_laid_off DESC
+LIMIT 10;
+ 
+/*What were the average number of layoffs per industry over the 3 years?*/
+SELECT industry,round(avg(laid_off_count),0) AS avg_laid_off
+FROM `portfolio-372119.layoffs_data.layoffs_data`
+GROUP BY industry, year
+ORDER BY avg_laid_off DESC;
+ 
+/*What was the total number of layoffs by stage in descending order?*/
+SELECT stage, sum(laid_off_count) AS total_laid_off
+FROM `portfolio-372119.layoffs_data.layoffs_data`
+GROUP BY stage
+ORDER BY  total_laid_off DESC;
