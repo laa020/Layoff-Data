@@ -2,7 +2,7 @@ Capstone Project
 
 CAPSTONE PROJECT FOR GOOGLE DATA ANALYTICS CERTIFICATE (OPTION 3: CHOOSE YOUR OWN)
 
-Link for final project on Tableau:
+Link for final project on Tableau:https://public.tableau.com/views/LayoffData-CapstoneProject/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link
 
 I found a dataset on Kaggle. I downloaded the data as a csv and cleaned it in Excel. Then I uploaded it to BigQuery for exploration.
 
